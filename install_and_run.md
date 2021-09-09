@@ -6,6 +6,10 @@ Install Flask but also nodejs in conda environment
 ```
 conda env create --file server/environment.yml
 ```
+### Before run
+```
+conda activate flask_vue_bokeh
+```
 
 ### Run developpement environment
 ```
@@ -14,7 +18,7 @@ python server/app.py [--DEBUG]
 
 ### Run production environment
 ```
- python server/app.py [--DEBUG] --PROD
+python server/app.py [--DEBUG] --PROD
 ```
 
 ### Format python files
@@ -25,6 +29,11 @@ black .
 
 # frontend
 ## VueJs 3
+
+### Before yarn
+```
+conda activate flask_vue_bokeh
+```
 
 ### Project setup
 ```
