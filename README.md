@@ -523,7 +523,7 @@ export default createStore({
 });
 ```
 frontend/
-__package.json, vue_node_serve.js,vue_node_build.js,config.js,__
+__package.json, vue_node_serve.js,vue_node_build.js__
 ```javascript
 package.json:
 {
