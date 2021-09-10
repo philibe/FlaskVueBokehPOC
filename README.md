@@ -42,6 +42,7 @@ I've seen this Github Issue #10658 (opened):[[FEATURE] Target ES5/ES6 with Bokeh
 - https://www.codimth.com/blog/web/vuejs/how-use-composition-api-vuejs-3
 - https://markus.oberlehner.net/blog/vue-3-composition-api-vs-options-api/
 
+## Code abstract
 
 __server/config.py__
 ```python
