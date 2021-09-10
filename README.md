@@ -74,7 +74,7 @@ import uuid
 import os
 
 
-from bokeh.embed import json_item
+from bokeh.embed import json_item, components
 from bokeh.plotting import figure, curdoc
 from bokeh.models.sources import AjaxDataSource, ColumnDataSource
 
@@ -250,11 +250,12 @@ def create_app(PROD, DEBUG):
         p2.circle('x', 'y', source=s2, alpha=0.6)
 
         response_object = {}
+        response_object['gr'] = {}
 
-        # gr=gridplot([p1,p2], ncols=2, plot_width=250, plot_height=250)
-        gr = row(p1, p2)
-        response_object['gr'] = json_item(gr)
-        return jsonify(response_object)
+        script, div = components({'p1': p1, 'p2': p2}, wrap_script=False)
+        response_object['gr']['script'] = script
+        response_object['gr']['div'] = div
+        return response_object
 
     return app
 
@@ -308,14 +309,20 @@ app.mount("#app");
 
 __frontend/src/pages/ProdSinusPage.vue__
 ```vue
+<style>
+  [..]
+</style>
 <template>
-  <div id="mygraph" style="display: inline; float: left"></div>
-  <div style="display: inline">
-    <ul>
-      <li v-for="data in datasinus" :key="data.x">
-        [[ currency(data.x,'',2) ]] - [[currency(data.y,'',2) ]]
-      </li>
-    </ul>
+  <div class="row" style="width: 60%">
+    <div id="bokeh_ch1" class="column left"></div>
+    <div class="column middle">
+      <ul>
+        <li v-for="data in datasinus" :key="data.x">
+          [[ currency(data.x,'',2) ]] - [[currency(data.y,'',2) ]]
+        </li>
+      </ul>
+    </div>
+    <div id="bokeh_ch2" class="column right"></div>
   </div>
 </template>
 
@@ -350,9 +357,10 @@ async function get1stJsonbokeh() {
   });
   let result = await promise;
 
-  //console.log(JSON.parse(JSON.stringify(result.gr)));
-
-  window.Bokeh.embed.embed_item(result.gr, "mygraph");
+  var temp1 = result.gr;
+  document.getElementById("bokeh_ch1").innerHTML = temp1.div.p1;
+  document.getElementById("bokeh_ch2").innerHTML = temp1.div.p2;
+  eval(temp1.script);
 }
 get1stJsonbokeh();
 

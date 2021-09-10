@@ -18,7 +18,7 @@ import uuid
 import os
 
 
-from bokeh.embed import json_item
+from bokeh.embed import json_item, components
 from bokeh.plotting import figure, curdoc
 from bokeh.models.sources import AjaxDataSource, ColumnDataSource
 
@@ -194,11 +194,12 @@ def create_app(PROD, DEBUG):
         p2.circle('x', 'y', source=s2, alpha=0.6)
 
         response_object = {}
+        response_object['gr'] = {}
 
-        # gr=gridplot([p1,p2], ncols=2, plot_width=250, plot_height=250)
-        gr = row(p1, p2)
-        response_object['gr'] = json_item(gr)
-        return jsonify(response_object)
+        script, div = components({'p1': p1, 'p2': p2}, wrap_script=False)
+        response_object['gr']['script'] = script
+        response_object['gr']['div'] = div
+        return response_object
 
     return app
 

@@ -1,11 +1,41 @@
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  padding: 10px;
+  height: 300px;
+}
+
+.left,
+.right {
+  width: 25%;
+}
+
+.middle {
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
 <template>
-  <div id="mygraph" style="display: inline; float: left"></div>
-  <div style="display: inline">
-    <ul>
-      <li v-for="data in datasinus" :key="data.x">
-        [[ currency(data.x,'',2) ]] - [[currency(data.y,'',2) ]]
-      </li>
-    </ul>
+  <div class="row" style="width: 60%">
+    <div id="bokeh_ch1" class="column left"></div>
+    <div class="column middle">
+      <ul>
+        <li v-for="data in datasinus" :key="data.x">
+          [[ currency(data.x,'',2) ]] - [[currency(data.y,'',2) ]]
+        </li>
+      </ul>
+    </div>
+    <div id="bokeh_ch2" class="column right"></div>
   </div>
 </template>
 
@@ -40,9 +70,10 @@ async function get1stJsonbokeh() {
   });
   let result = await promise;
 
-  //console.log(JSON.parse(JSON.stringify(result.gr)));
-
-  window.Bokeh.embed.embed_item(result.gr, "mygraph");
+  var temp1 = result.gr;
+  document.getElementById("bokeh_ch1").innerHTML = temp1.div.p1;
+  document.getElementById("bokeh_ch2").innerHTML = temp1.div.p2;
+  eval(temp1.script);
 }
 get1stJsonbokeh();
 
