@@ -7,7 +7,7 @@
 
 Here is a POC with `import bokeh` without external bokeh server and with vue (vue3,vuex4, composition-api) because I didn't found a tutorial for my needs.
 
-There is 2 bokeh graphs linked by a lasso via [`js_on_change()` python side (url)](https://docs.bokeh.org/en/latest/docs/user_guide/interaction/callbacks.html) and[`Bokeh.embed.embed_item()` js side, via `json_item()` python side (url)](https://docs.bokeh.org/en/latest/docs/user_guide/embed.html).
+There are 2 bokeh graphs linked by a lasso via [`js_on_change()` python side (url)](https://docs.bokeh.org/en/latest/docs/user_guide/interaction/callbacks.html) and[`Bokeh.embed.embed_item()` js side, via `json_item()` python side (url)](https://docs.bokeh.org/en/latest/docs/user_guide/embed.html).
 
 - Flask
   - api datas
@@ -23,7 +23,7 @@ Look at https://github.com/philibe/FlaskVueBokehPOC for the source code detail.
 
 ## Import issue
 
-Because of [discourse.bokeh.org: Node12 import error bokeh 2.0](https://discourse.bokeh.org/t/node12-import-error-bokeh-2-0/5061) I call bokehjs by the DOM javascript `window.Bokeh.embed.embed_item()` in `frontend/src/pages/ProdSinusPage.vue`. 
+Because of [discourse.bokeh.org: Node12 import error bokeh 2.0](https://discourse.bokeh.org/t/node12-import-error-bokeh-2-0/5061) I call bokehjs by the DOM javascript `window.Bokeh. ...` in `frontend/src/pages/ProdSinusPage.vue`. 
 
 I've seen this Github Issue #10658 (opened):[[FEATURE] Target ES5/ES6 with BokehJS ](https://github.com/bokeh/bokeh/issues/10658).
 
