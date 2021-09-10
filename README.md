@@ -18,8 +18,14 @@ There is 2 bokeh graphs linked by a lasso via [`js_on_change()` python side (url
   - Vue 3
   - vuex 4
   - management of data feedback in a `<ol> <li>` list and 2 bokeh graphs in a template view via API composition 
+  
+Look at https://github.com/philibe/FlaskVueBokehPOC for the source code detail.  
 
-Because of [discourse.bokeh.org: Node12 import error bokeh 2.0](https://discourse.bokeh.org/t/node12-import-error-bokeh-2-0/5061) I call bokehjs by the DOM javascript `window.Bokeh.embed.embed_item()` in `frontend/src/pages/ProdSinusPage.vue`.
+## Import issue
+
+Because of [discourse.bokeh.org: Node12 import error bokeh 2.0](https://discourse.bokeh.org/t/node12-import-error-bokeh-2-0/5061) I call bokehjs by the DOM javascript `window.Bokeh.embed.embed_item()` in `frontend/src/pages/ProdSinusPage.vue`. 
+
+I've seen this Github Issue #10658 (opened):[[FEATURE] Target ES5/ES6 with BokehJS ](https://github.com/bokeh/bokeh/issues/10658).
 
 
 ## Links
@@ -27,11 +33,14 @@ Because of [discourse.bokeh.org: Node12 import error bokeh 2.0](https://discours
 - https://docs.bokeh.org/en/latest/docs/user_guide/embed.html
 - https://stackoverflow.com/questions/37083998/flask-bokeh-ajaxdatasource
 - https://discourse.bokeh.org/t/node12-import-error-bokeh-2-0/5061
-- https://stackoverflow.com/questions/5869216/how-to-store-node-js-deployment-settings-configuration-files
+- https://github.com/bokeh/bokeh/issues/10658
+- https://stackoverflow.com/questions/5869216/how-to-store-node-js-deployment-settings-configuration-files/66749910#66749910
 - https://stackoverflow.com/questions/50828904/using-environment-variables-with-vue-js/57295959#57295959
 - https://github.com/vuejs/vuex/tree/4.0/examples/composition/shopping-cart
 - https://www.digitalocean.com/community/tutorials/how-to-build-a-shopping-cart-with-vue-3-and-vuex
 - https://github.com/vuejs/vuex/tree/4.0/examples/composition
+- https://www.codimth.com/blog/web/vuejs/how-use-composition-api-vuejs-3
+- https://markus.oberlehner.net/blog/vue-3-composition-api-vs-options-api/
 
 
 __server/config.py__
