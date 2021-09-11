@@ -336,18 +336,7 @@ import { currency } from "@/currency";
 //https://github.com/vuejs/vuex/tree/4.0/examples/composition/shopping-cart
 
 const store = useStore();
-const prodsinus = computed(() => store.state.modprodsinus.prodsinus);
 
-async function get1stProduct() {
-  const promise = new Promise((resolve /*, reject */) => {
-    setTimeout(() => {
-      resolve(prodsinus.value);
-    }, 1001);
-  });
-  let result = await promise;
-  console.log(result);
-}
-get1stProduct();
 const bokehinlinejs = computed(() => store.state.modprodsinus.bokehinlinejs);
 
 async function get1stJsonbokeh() {
