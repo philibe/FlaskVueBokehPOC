@@ -1,5 +1,6 @@
 # markdown
 *.html
+!frontend/public/**
 
 # python flask
 # ############
