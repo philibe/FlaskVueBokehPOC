@@ -7,6 +7,9 @@
 
 Here is a POC with `import bokeh` without external bokeh server and with vue (vue3,vuex4, composition-api) because I didn't found a tutorial for my needs.
 
+
+![](FlaskVueBokehPOC.jpg)
+
 There are 2 bokeh graphs linked by a lasso with [python `js_on_change()`](https://docs.bokeh.org/en/latest/docs/user_guide/interaction/callbacks.html)
 via [python `components({})`  which generate a js script with `Bokeh.embed.embed_items()` inside](https://docs.bokeh.org/en/latest/docs/user_guide/embed.html).
 
