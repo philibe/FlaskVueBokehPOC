@@ -24,7 +24,7 @@ module.exports = {
         "process.env": {
           NODE_ENV: JSON.stringify(env),
           CONFIG_PORTFLASK: JSON.stringify(process.env.CONFIG_PORTFLASK),
-          CONFIG_PORTNODEDEV: JSON.stringify(process.env.PORTNODEDEV),
+          CONFIG_PORTNODEDEV: JSON.stringify(process.env.CONFIG_PORTNODEDEV),
         },
       }),
     ],
