@@ -31,7 +31,7 @@ Because of [discourse.bokeh.org: Node12 import error bokeh 2.0](https://discours
 
 I've seen this Github Issue #10658 (opened):[[FEATURE] Target ES5/ES6 with BokehJS ](https://github.com/bokeh/bokeh/issues/10658).
 
-Finally I put `<script src="/static/plugins_node_modules/@bokeh/bokehjs/build/js/bokeh.min.js"></script>` instead of `window.Bokeh. ...`
+Finally I put `<script src="/static/plugins_node_modules/@bokeh/bokehjs/build/js/bokeh.min.js"></script>` in `frontend/public/index.html` instead of this script url and `window.Bokeh. ...` in `frontend/src/pages/ProdSinusPage.vue`.
 
 ## Links
 - https://docs.bokeh.org/en/latest/docs/user_guide/interaction/callbacks.html
