@@ -103,11 +103,11 @@ def create_app(PROD, DEBUG):
     def favicon():
         return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/x-icon')
 
-    @app.route('/static/plugins_node_modules/<path:path>')
-    def send_plugins_(path):
-        print(app.app_dir_root)
-        print(os.path.join(app.app_dir_root, 'frontend', 'node_modules'))
-        return send_from_directory((os.path.join(app.app_dir_root, 'frontend', 'node_modules')), path)
+    # @app.route('/static/plugins_node_modules/<path:path>')
+    # def send_plugins_(path):
+    #     print(app.app_dir_root)
+    #     print(os.path.join(app.app_dir_root, 'frontend', 'node_modules'))
+    #     return send_from_directory((os.path.join(app.app_dir_root, 'frontend', 'node_modules')), path)
 
     # https://stackoverflow.com/questions/37083998/flask-bokeh-ajaxdatasource
     # https://github.com/bokeh/bokeh/blob/main/examples/embed/json_item.py
