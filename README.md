@@ -25,12 +25,14 @@ via [python `components({})`  which generate a js script with `Bokeh.embed.embed
   
 Look at https://github.com/philibe/FlaskVueBokehPOC for the source code detail.  
 
+
 ## Import issue
 
-Because of [discourse.bokeh.org: Node12 import error bokeh 2.0](https://discourse.bokeh.org/t/node12-import-error-bokeh-2-0/5061) I call bokehjs by the DOM javascript `window.Bokeh. ...` in `frontend/src/pages/ProdSinusPage.vue`. 
+Because of [discourse.bokeh.org: Node12 import error bokeh 2.0](https://discourse.bokeh.org/t/node12-import-error-bokeh-2-0/5061) I call bokehjs by the DOM javascript `window.Bokeh. ... ` in `frontend/src/pages/ProdSinusPage.vue`. 
 
 I've seen this Github Issue #10658 (opened):[[FEATURE] Target ES5/ES6 with BokehJS ](https://github.com/bokeh/bokeh/issues/10658).
 
+edit 23/09/2022: I use `const Bokeh=require ('bokeh.min.js');` and some string replacement and webpack alias. See edit below edit  and new part "`const Bokeh=require ('bokeh.min.js');`(23/09/2022)".
 
 ## Links
 - https://docs.bokeh.org/en/latest/docs/user_guide/interaction/callbacks.html
@@ -162,12 +164,6 @@ def create_app(PROD, DEBUG):
     @app.route('/favicon.ico')
     def favicon():
         return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/x-icon')
-
-    @app.route('/static/plugins_node_modules/<path:path>')
-    def send_plugins_(path):
-        print(app.app_dir_root)
-        print(os.path.join(app.app_dir_root, 'frontend', 'node_modules'))
-        return send_from_directory((os.path.join(app.app_dir_root, 'frontend', 'node_modules')), path)
 
     # https://stackoverflow.com/questions/37083998/flask-bokeh-ajaxdatasource
     # https://github.com/bokeh/bokeh/blob/main/examples/embed/json_item.py
@@ -336,6 +332,9 @@ import { computed, onBeforeUnmount } from "vue";
 import { useStore } from "vuex";
 import { currency } from "@/currency";
 
+var Bokeh = require("bokeh.min.js");
+window.Bokeh = Bokeh.Bokeh;
+
 //https://github.com/vuejs/vuex/tree/4.0/examples/composition/shopping-cart
 
 const store = useStore();
@@ -353,7 +352,13 @@ async function get1stJsonbokeh() {
   var temp1 = result.gr;
   document.getElementById("bokeh_ch1").innerHTML = temp1.div.p1;
   document.getElementById("bokeh_ch2").innerHTML = temp1.div.p2;
-  eval(temp1.script);
+  let newscript = temp1.script
+    .replace("Bokeh.safely", "window.Bokeh.safely")
+    .replaceAll("root.Bokeh", "window.Bokeh");
+    .replaceAll("root.Bokeh", "window.Bokeh")
+    .replaceAll("attempts > 100", "attempts > 1000");
+  console.log(newscript);
+  eval(newscript);
 }
 get1stJsonbokeh();
 
@@ -584,6 +589,10 @@ module.exports = {
       extensions: [".js", ".vue", ".json", ".scss"],
       alias: {
         styles: path.resolve(__dirname, "src/assets/scss"),
+        "bokeh.min.js": path.join(
+           __dirname,
+           "/node_modules/@bokeh/bokehjs/build/js/bokeh.min.js"
+        ),
       },
     },
     plugins: [
@@ -608,14 +617,6 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           "^/api": "/api",
-        },
-      },
-
-      "/static/plugins_node_modules": {
-        target: "http://localhost:" + process.env.CONFIG_PORTFLASK + "/",
-        changeOrigin: true,
-        pathRewrite: {
-          "^/static/plugins_node_modules": "/static/plugins_node_modules/",
         },
       },
     },
@@ -691,3 +692,49 @@ var config = {
 
 module.exports = config;
 ```
+## `const Bokeh=require ('bokeh.min.js');`(23/09/2022)
+
+I tried again: `require ('bokeh.min.js')` works with VueJS 3. :)
+
+At least with js script from Python [Embedding Bokeh content](https://docs.bokeh.org/en/latest/docs/user_guide/embed.html) `script, div = bokeh.embed.components({'p1': p1, 'p2': p2}, wrap_script=False)`.
+
+(Don't forget, in the graph, to scroll x to the value displayed in the middle text to see the graph.)
+
+
+- `frontend/src/pages/ProdSinusPage.vue` (Here is my update):
+```
+var Bokeh = require("bokeh.min.js");
+window.Bokeh = Bokeh.Bokeh;
+....
+  let newscript = temp1.script // from script from bokeh.embed.components()
+    .replace("Bokeh.safely", "window.Bokeh.safely")
+    .replaceAll("root.Bokeh", "window.Bokeh")
+    .replaceAll("attempts > 100", "attempts > 1000");
+  eval(newscript);
+```
+-`frontend/vue.config.js` (nearly same as my above comment)
+```
+  configureWebpack: {
+    resolve: {
+      extensions: [".js", ".vue", ".json", ".scss"],
+      alias: {
+        "bokeh.min.js": path.join(
+          __dirname,
+          "/node_modules/@bokeh/bokehjs/build/js/bokeh.min.js"
+        ),
+      },
+    },
+```
+- without `module.exports = { ...... devServer: { proxy: { "/static/plugins_node_modules"`:
+- without `@app.route()` in the Flask side (same as my above comment)
+
+https://github.com/philibe/FlaskVueBokehPOC/commit/42208af8bedc2b6a0f20dddb260deda02f98269a
+https://github.com/philibe/FlaskVueBokehPOC/commit/d28e89180d2dc0b076cd373c2c0f36e5daf5d5f6
+
+ 
+Despite of
+> WARNING  Compiled with 2 warnings
+>  warning  in ./node_modules/@bokeh/bokehjs/build/js/bokeh.min.js
+> Critical dependency: require function is used in a way in which dependencies cannot be statically extracted
+>  warning  in ./node_modules/@bokeh/bokehjs/build/js/bokeh.min.js
+> Critical dependency: the request of a dependency is an expression
