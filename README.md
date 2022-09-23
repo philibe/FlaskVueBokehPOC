@@ -308,7 +308,7 @@ app.mount("#app");
 ```
 
 __frontend/src/pages/ProdSinusPage.vue__
-```vue
+```js
 <style>
   [..]
 </style>
@@ -355,7 +355,6 @@ async function get1stJsonbokeh() {
   let newscript = temp1.script
     .replace("Bokeh.safely", "window.Bokeh.safely")
     .replaceAll("root.Bokeh", "window.Bokeh");
-    .replaceAll("root.Bokeh", "window.Bokeh")
     .replaceAll("attempts > 100", "attempts > 1000");
   console.log(newscript);
   eval(newscript);
