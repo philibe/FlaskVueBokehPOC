@@ -16,6 +16,11 @@ module.exports = {
       extensions: [".js", ".vue", ".json", ".scss"],
       alias: {
         styles: path.resolve(__dirname, "src/assets/scss"),
+
+        "bokeh.min.js": path.join(
+          __dirname,
+          "/node_modules/@bokeh/bokehjs/build/js/bokeh.legacy.min.js"
+        ),
       },
     },
     plugins: [
@@ -26,6 +31,7 @@ module.exports = {
           CONFIG_PORTFLASK: JSON.stringify(process.env.CONFIG_PORTFLASK),
           CONFIG_PORTNODEDEV: JSON.stringify(process.env.CONFIG_PORTNODEDEV),
         },
+        "bokeh.min.js": "bokeh.min.js",
       }),
     ],
   },
@@ -43,13 +49,14 @@ module.exports = {
         },
       },
 
-      "/static/plugins_node_modules": {
+      /*  "/static/plugins_node_modules": {
         target: "http://localhost:" + process.env.CONFIG_PORTFLASK + "/",
         changeOrigin: true,
         pathRewrite: {
           "^/static/plugins_node_modules": "/static/plugins_node_modules/",
         },
       },
+      */
     },
   },
 

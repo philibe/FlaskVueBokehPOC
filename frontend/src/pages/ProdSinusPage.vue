@@ -47,6 +47,12 @@ import { currency } from "@/currency";
 
 //https://github.com/vuejs/vuex/tree/4.0/examples/composition/shopping-cart
 
+var Bokeh = require("bokeh.min.js");
+console.log(Bokeh);
+window.Bokeh = Bokeh.Bokeh;
+
+var embed = Bokeh.Bokeh.embed;
+
 const store = useStore();
 
 const bokehinlinejs = computed(() => store.state.modprodsinus.bokehinlinejs);
@@ -62,7 +68,12 @@ async function get1stJsonbokeh() {
   var temp1 = result.gr;
   document.getElementById("bokeh_ch1").innerHTML = temp1.div.p1;
   document.getElementById("bokeh_ch2").innerHTML = temp1.div.p2;
-  eval(temp1.script);
+  let newscript = temp1.script
+    .replace("Bokeh.safely", "window.Bokeh.safely")
+    .replaceAll("root.Bokeh", "window.Bokeh");
+  console.log(newscript);
+
+  eval(newscript);
 }
 get1stJsonbokeh();
 
