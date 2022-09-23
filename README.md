@@ -352,11 +352,10 @@ async function get1stJsonbokeh() {
   var temp1 = result.gr;
   document.getElementById("bokeh_ch1").innerHTML = temp1.div.p1;
   document.getElementById("bokeh_ch2").innerHTML = temp1.div.p2;
-  let newscript = temp1.script
+  let newscript = temp1.script // from script from bokeh.embed.components()
     .replace("Bokeh.safely", "window.Bokeh.safely")
-    .replaceAll("root.Bokeh", "window.Bokeh");
+    .replaceAll("root.Bokeh", "window.Bokeh")
     .replaceAll("attempts > 100", "attempts > 1000");
-  console.log(newscript);
   eval(newscript);
 }
 get1stJsonbokeh();
