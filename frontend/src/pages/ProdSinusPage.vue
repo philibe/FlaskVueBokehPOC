@@ -48,10 +48,8 @@ import { currency } from "@/currency";
 //https://github.com/vuejs/vuex/tree/4.0/examples/composition/shopping-cart
 
 var Bokeh = require("bokeh.min.js");
-console.log(Bokeh);
+// console.log(Bokeh);
 window.Bokeh = Bokeh.Bokeh;
-
-var embed = Bokeh.Bokeh.embed;
 
 const store = useStore();
 
@@ -70,7 +68,9 @@ async function get1stJsonbokeh() {
   document.getElementById("bokeh_ch2").innerHTML = temp1.div.p2;
   let newscript = temp1.script
     .replace("Bokeh.safely", "window.Bokeh.safely")
-    .replaceAll("root.Bokeh", "window.Bokeh");
+    .replaceAll("root.Bokeh", "window.Bokeh")
+    .replaceAll("attempts > 100", "attempts > 1000");
+
   console.log(newscript);
 
   eval(newscript);

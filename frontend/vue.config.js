@@ -19,7 +19,7 @@ module.exports = {
 
         "bokeh.min.js": path.join(
           __dirname,
-          "/node_modules/@bokeh/bokehjs/build/js/bokeh.legacy.min.js"
+          "/node_modules/@bokeh/bokehjs/build/js/bokeh.min.js"
         ),
       },
     },
@@ -31,7 +31,6 @@ module.exports = {
           CONFIG_PORTFLASK: JSON.stringify(process.env.CONFIG_PORTFLASK),
           CONFIG_PORTNODEDEV: JSON.stringify(process.env.CONFIG_PORTNODEDEV),
         },
-        "bokeh.min.js": "bokeh.min.js",
       }),
     ],
   },
