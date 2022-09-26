@@ -700,6 +700,7 @@ At least with js script from Python [Embedding Bokeh content](https://docs.bokeh
 
 
 - `frontend/src/pages/ProdSinusPage.vue` (Here is my update):
+
 ```
 var Bokeh = require("bokeh.min.js");
 window.Bokeh = Bokeh.Bokeh;
@@ -710,7 +711,9 @@ window.Bokeh = Bokeh.Bokeh;
     .replaceAll("attempts > 100", "attempts > 1000");
   eval(newscript);
 ```
+
 -`frontend/vue.config.js` (nearly same as my above comment)
+
 ```
   configureWebpack: {
     resolve: {
@@ -723,6 +726,7 @@ window.Bokeh = Bokeh.Bokeh;
       },
     },
 ```
+
 - without `module.exports = { ...... devServer: { proxy: { "/static/plugins_node_modules"`:
 - without `@app.route()` in the Flask side (same as my above comment)
 
