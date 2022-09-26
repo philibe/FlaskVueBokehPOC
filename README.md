@@ -712,7 +712,7 @@ window.Bokeh = Bokeh.Bokeh;
   eval(newscript);
 ```
 
--`frontend/vue.config.js` (nearly same as my above comment)
+- `frontend/vue.config.js` (nearly same as my above comment)
 
 ```
   configureWebpack: {
