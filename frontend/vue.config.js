@@ -21,6 +21,8 @@ module.exports = {
           __dirname,
           "/node_modules/@bokeh/bokehjs/build/js/bokeh.min.js"
         ),
+
+        "bulma.css": path.join(__dirname, "/node_modules/bulma/css/bulma.css"),
       },
     },
     plugins: [

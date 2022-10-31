@@ -32,7 +32,13 @@ Because of [discourse.bokeh.org: Node12 import error bokeh 2.0](https://discours
 
 I've seen this Github Issue #10658 (opened):[[FEATURE] Target ES5/ES6 with BokehJS ](https://github.com/bokeh/bokeh/issues/10658).
 
-edit 23/09/2022: I use `const Bokeh=require ('bokeh.min.js');` and some string replacement and webpack alias. See edit below edit  and new part "`const Bokeh=require ('bokeh.min.js');`(23/09/2022)".
+edit 23/09/2022, 31/10/2022: See  below edit some 
+
+ - string replacement 
+ - webpack aliases 
+ - and mainly new part "Importation of Bokeh".
+ 
+end of edit 
 
 ## Links
 - https://docs.bokeh.org/en/latest/docs/user_guide/interaction/callbacks.html
@@ -296,7 +302,7 @@ import { createApp, prototype } from "vue";
 import store from "@/store/store.js";
 import App from "@/App.vue";
 import router from "@/router/router.js";
-import "./../node_modules/bulma/css/bulma.css";
+import "bulma.css";
 
 // https://v3.vuejs.org/guide/migration/filters.html#migration-strategy
 // "Filters are removed from Vue 3.0 and no longer supported"
@@ -332,7 +338,9 @@ import { computed, onBeforeUnmount } from "vue";
 import { useStore } from "vuex";
 import { currency } from "@/currency";
 
-var Bokeh = require("bokeh.min.js");
+//var Bokeh = require("bokeh.min.js");
+import * as Bokeh from "bokeh.min.js";
+
 window.Bokeh = Bokeh.Bokeh;
 
 //https://github.com/vuejs/vuex/tree/4.0/examples/composition/shopping-cart
@@ -355,7 +363,7 @@ async function get1stJsonbokeh() {
   let newscript = temp1.script // from script from bokeh.embed.components()
     .replace("Bokeh.safely", "window.Bokeh.safely")
     .replaceAll("root.Bokeh", "window.Bokeh")
-    .replaceAll("attempts > 100", "attempts > 1000");
+    .replace("attempts > 100", "attempts > 1000");
   eval(newscript);
 }
 get1stJsonbokeh();
@@ -591,6 +599,7 @@ module.exports = {
            __dirname,
            "/node_modules/@bokeh/bokehjs/build/js/bokeh.min.js"
         ),
+        "bulma.css": path.join(__dirname, "/node_modules/bulma/css/bulma.css"),
       },
     },
     plugins: [
@@ -690,9 +699,10 @@ var config = {
 
 module.exports = config;
 ```
-## `const Bokeh=require ('bokeh.min.js');`(23/09/2022)
+## "Importation of Bokeh";`
 
-I tried again: `require ('bokeh.min.js')` works with VueJS 3. :)
+
+`import * as Bokeh from "bokeh.min.js";` (and `require ('bokeh.min.js')` ) work with VueJS 3 with 2 warnings in both cases :)
 
 At least with js script from Python [Embedding Bokeh content](https://docs.bokeh.org/en/latest/docs/user_guide/embed.html) `script, div = bokeh.embed.components({'p1': p1, 'p2': p2}, wrap_script=False)`.
 
@@ -702,13 +712,14 @@ At least with js script from Python [Embedding Bokeh content](https://docs.bokeh
 - `frontend/src/pages/ProdSinusPage.vue` (Here is my update):
 
 ```
-var Bokeh = require("bokeh.min.js");
+//var Bokeh = require("bokeh.min.js");
+import * as Bokeh from "bokeh.min.js";
 window.Bokeh = Bokeh.Bokeh;
 ....
   let newscript = temp1.script // from script from bokeh.embed.components()
     .replace("Bokeh.safely", "window.Bokeh.safely")
     .replaceAll("root.Bokeh", "window.Bokeh")
-    .replaceAll("attempts > 100", "attempts > 1000");
+    .replace("attempts > 100", "attempts > 1000");
   eval(newscript);
 ```
 
@@ -730,10 +741,7 @@ window.Bokeh = Bokeh.Bokeh;
 - without `module.exports = { ...... devServer: { proxy: { "/static/plugins_node_modules"`:
 - without `@app.route()` in the Flask side (same as my above comment)
 
-https://github.com/philibe/FlaskVueBokehPOC/commit/42208af8bedc2b6a0f20dddb260deda02f98269a
-https://github.com/philibe/FlaskVueBokehPOC/commit/d28e89180d2dc0b076cd373c2c0f36e5daf5d5f6
 
- 
 Despite of
 > WARNING  Compiled with 2 warnings
 >  warning  in ./node_modules/@bokeh/bokehjs/build/js/bokeh.min.js
